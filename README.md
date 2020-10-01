@@ -1,17 +1,17 @@
-# node-canvas-with-twemoji-and-discord-emoji
+# canvas-twemoji-discord
 
 A fork of node-canvas-with-twemoji with Discord emoji support.
 
 ## Installation
 ```shell
-$ npm install node-canvas-with-twemoji-and-discord-emoji
+$ npm install https://github.com/AliasPedroKarim/canvas-twemoji-discord.git#master
 ```
-[npm](https://www.npmjs.com/package/node-canvas-with-twemoji-and-discord-emoji)
+~~[npm](https://www.npmjs.com/package/node-canvas-with-twemoji-and-discord-emoji)~~ _In fact, it's just the Flazepe package, so do it your way._
 
 ## Quick Example
 ```javascript
 const { createCanvas } = require('canvas');
-const { fillTextWithTwemoji } = require('node-canvas-with-twemoji-and-discord-emoji');
+const { fillTextWithTwemoji } = require('canvas-twemoji-discord');
 
 async function main () {
     const canvas = createCanvas(200, 200);
@@ -19,7 +19,7 @@ async function main () {
 
     context.fillStyle = '#000000';
     context.font = '30px Arial';
-    await fillTextWithTwemoji(context, '😉', 100, 100);
+    await fillTextWithTwemoji(context, '😉 ou frite <:frites:387552674611986449> au four', 100, 100);
 }
 
 main();
