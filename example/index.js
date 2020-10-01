@@ -5,6 +5,7 @@ const base64 = require('urlsafe-base64');
 const wt = require('../src/index');
 
 const app = express();
+const port = process.env.PORT || 9000;
 
 app.get('/', async (req, res) => {
   const canvas = createCanvas(200, 200);
@@ -15,12 +16,13 @@ app.get('/', async (req, res) => {
 
   context.fillStyle = '#000000';
   context.font = '30px Arial';
-  await wt.fillTextWithTwemoji(context, 'test😉', 10, 50);
+  await wt.fillTextWithTwemoji(context, 'test 😉 <:jumboable_emo:492687098701283328>', 10, 50);
 
   context.fillStyle = '#888888';
   context.font = '18px Arial';
-  await wt.fillTextWithTwemoji(context, '我々✨は宇宙人👽だ', 10, 100);
+  await wt.fillTextWithTwemoji(context, 'Frite au four <:frites:387552674611986443>', 10, 100);
 
+  // For : http://localhost:port/?text=<YOUR_TEXT>
   if (req.query.text) {
     await wt.fillTextWithTwemoji(context, req.query.text, 10, 150);
   }
@@ -32,4 +34,7 @@ app.get('/', async (req, res) => {
   return res.send(image);
 });
 
-app.listen('8080');
+app
+  .listen(port, () => {
+    console.log(`Staring web server express and listening port (${port})...`);
+  });

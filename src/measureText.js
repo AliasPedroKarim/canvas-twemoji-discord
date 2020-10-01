@@ -32,4 +32,4 @@ module.exports = function measureText (
     width: currentWidth,
     alphabeticBaseline: measured.alphabeticBaseline
   };
-}
+};

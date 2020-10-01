@@ -23,8 +23,7 @@ module.exports = async function drawTextWithEmoji (
 
   let currentWidth = 0;
 
-  for (let i = 0; i < textEntities.length; i++) {
-    const entity = textEntities[i];
+  for (let entity of textEntities) {
     if (typeof entity === 'string') {
       // Common text case
       if (fillType === 'fill') {
@@ -37,15 +36,18 @@ module.exports = async function drawTextWithEmoji (
     } else {
       // Emoji case
       const emoji = await loadTwemojiImageByUrl(entity.url);
-      context.drawImage(
-        emoji,
-        x + currentWidth + emojiSideMargin,
-        y + emojiTopMargin - fontSize - baseLine,
-        fontSize,
-        fontSize
-      );
+      
+      if(emoji) {
+        context.drawImage(
+          emoji,
+          x + currentWidth + emojiSideMargin,
+          y + emojiTopMargin - fontSize - baseLine,
+          fontSize,
+          fontSize
+        );
+      }
 
       currentWidth += fontSize + (emojiSideMargin * 2);
     }
   }
-}
+};

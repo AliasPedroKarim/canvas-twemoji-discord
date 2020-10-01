@@ -3,50 +3,45 @@ const { parse } = require('twemoji-parser');
 /*
  * Split Text
  * ex) 
- *  '君👼の味方🤝だよ'
- *  > ['君', TwemojiObj(👼), 'の味方', TwemojiObj(🤝), 'だよ']
+ *  'les patates 🥔 sont cuites 🍟 au four <:frites:387552674611986443>'
+ *  > ['les patates', TwemojiObj(🥔), 'sont cuites', TwemojiObj(🍟), 'au four', DiscordEmoteObj(<:frites:387552674611986443>)]
  */
 
-const discordEmojiPattern = "<a?:\\w+:(\\d{17}|\\d{18})>";
+const DISCORD_EMOJI_PATTERN = "<a?:\\w+:(\\d{17}|\\d{18})>";
 
 function parseDiscordEmojis(textEntities) {
 	const newArray = [];
-	
-	for (const entity of textEntities) {
+	for (var entity of textEntities) {
 		if (typeof entity === "string") {
-			const words = entity.replace(new RegExp(discordEmojiPattern, "g"), "\u200b$&\u200b").split("\u200b");
-			
-			words.map(word => word.match(new RegExp(discordEmojiPattern))
-				? newArray.push({ url: `https://cdn.discordapp.com/emojis/${word.match(new RegExp(discordEmojiPattern))[1]}.png` })
-				: newArray.push(word)
-			);
-		}
-		
-		else newArray.push(entity);
+      let pattern = new RegExp(DISCORD_EMOJI_PATTERN);
+
+      for(let word of entity.replace(new RegExp(DISCORD_EMOJI_PATTERN, "gm"), "\u200b$&\u200b").split("\u200b")) {
+        if(word.match(pattern)) {
+          newArray.push({ url: `https://cdn.discordapp.com/emojis/${word.match(pattern)[1]}.png`, text: word, type: 'emoji_discord', indices: null });
+        }else{
+          newArray.push(word);
+        }
+      }
+		} else newArray.push(entity);
 	}
-	
 	return newArray;
 }
 
 module.exports = function splitEntitiesFromText (text) {
   const twemojiEntities = parse(text, { assetType: 'svg' });
-
-  let unparsedText = text;
+  
   let lastTwemojiIndice = 0;
   const textEntities = [];
-  
-  twemojiEntities.forEach((twemoji) => {
-    textEntities.push(
-      unparsedText.slice(0, twemoji.indices[0] - lastTwemojiIndice)
-    );
 
+  for(let twemoji of twemojiEntities) {
+    textEntities.push(text.slice(0, twemoji.indices[0] - lastTwemojiIndice));
     textEntities.push(twemoji);
 
-    unparsedText = unparsedText.slice(twemoji.indices[1] - lastTwemojiIndice);
+    text = text.slice(twemoji.indices[1] - lastTwemojiIndice);
     lastTwemojiIndice = twemoji.indices[1];
-  });
+  }
 
-  textEntities.push(unparsedText);
+  textEntities.push(text);
 
   return parseDiscordEmojis(textEntities);
-}
+};

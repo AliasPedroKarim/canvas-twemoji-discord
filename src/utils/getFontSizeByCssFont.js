@@ -34,4 +34,4 @@ module.exports = function getFontSizeByCssFont (cssFont) {
     default:
       return Number(sizeFamily[1]);
   }
-}
+};
