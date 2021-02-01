@@ -4,7 +4,8 @@
   "description": "A fork of node-canvas-with-twemoji with Discord emoji support.",
   "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "install:test": "npm install --prefix example",
+    "run:test": "npm run run:test --prefix example"
   },
   "author": "PedroKarim64",
   "dependencies": {

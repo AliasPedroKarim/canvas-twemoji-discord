@@ -1,6 +1,7 @@
 # canvas-twemoji-discord
 
 A fork of node-canvas-with-twemoji with Discord emoji support.
+A fork of node-canvas-with-twemoji-and-discord-emoji with Discord emoji support.
 
 ## Installation
 ```shell
@@ -20,6 +21,7 @@ async function main () {
     context.fillStyle = '#000000';
     context.font = '30px Arial';
     await fillTextWithTwemoji(context, '😉 ou frite <:frites:387552674611986449> au four', 100, 100);
+    await fillTextWithTwemoji(context, 'les patates 🥔 sont cuites 🍟 au four <:frites:387552674611986443>', 100, 130, { maxWidth: 150, ellipsisCharactere: "..." });
 }
 
 main();
@@ -35,5 +37,6 @@ main();
 ### node-canvas-with-twemoji
 
 Copyright (c) 2020 cagpie <cagpie@gmail.com>
+Modified by PedroKarim64
 
 Code licensed under the MIT License: http://opensource.org/licenses/MIT

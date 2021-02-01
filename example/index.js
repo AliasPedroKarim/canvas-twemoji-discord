@@ -8,11 +8,11 @@ const app = express();
 const port = process.env.PORT || 9000;
 
 app.get('/', async (req, res) => {
-  const canvas = createCanvas(200, 200);
+  const canvas = createCanvas(700, 200);
   const context = canvas.getContext('2d');
 
   context.fillStyle = '#ffffff';
-  context.fillRect(0, 0, 200, 200);
+  context.fillRect(0, 0, 700, 200);
 
   context.fillStyle = '#000000';
   context.font = '30px Arial';
@@ -20,7 +20,11 @@ app.get('/', async (req, res) => {
 
   context.fillStyle = '#888888';
   context.font = '18px Arial';
-  await wt.fillTextWithTwemoji(context, 'Frite au four <:frites:387552674611986443>', 10, 100);
+
+  // use query "size"
+
+  let size = !isNaN(parseFloat(req.query.size)) ? parseFloat(req.query.size) :  300;
+  await wt.fillTextWithTwemoji(context, 'les patates 🥔 sont cuites 🍟 au four <:frites:387552674611986443>', 10, 100, { maxWidth: size });
 
   // For : http://localhost:port/?text=<YOUR_TEXT>
   if (req.query.text) {
